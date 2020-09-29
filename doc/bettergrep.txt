@@ -48,7 +48,7 @@ command-line mode commands with the custom-made ones from this plugin.
 ==============================================================================
 MAPPINGS                                                 *bettergrep-mappings*
 
-                                                                      *CTRL-G*
+                                                           *bettergrep-CTRL-G*
 CTRL-G          Insert |:Grep| into command-line mode and start cursor after
                 it.
 
@@ -64,10 +64,9 @@ g:bettergrepprg                                              *g:bettergrepprg*
         - |'grepprg'|
     
     Set this to whatever you would like to grep with.
-    Example:
-    >
+    Example: >
         let g:bettergrpprg = "git grep -n"
-    <
+<
 
 g:bettergrep_no_abbrev                                *g:bettergrep_no_abbrev*
 
@@ -75,20 +74,18 @@ g:bettergrep_no_abbrev                                *g:bettergrep_no_abbrev*
 
     Set this to 1 if you don't want your command-line rewritten for legacy
     |:grep| commands.
-    Example:
-    >
+    Example: >
         let g:bettergrep_no_abbrev = 1
-    <
-
+<
 g:bettergrep_no_mappings                            *g:bettergrep_no_mappings*
 
     Default: 0
 
-    Set this to 1 if you don't want the default |<C-g>| to map to |:Grep|
-    Example:
-    >
+    Set this to 1 if you don't want the default |CTRL-G| to map to |:Grep|
+    Example: >
         let g:bettergrep_no_mappings = 1
-    <
+<
+    see: |bettergrep-CTRL-G|
 
 ==============================================================================
 LICENSE                                                   *bettergrep-license*
@@ -114,4 +111,4 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 IN THE SOFTWARE.
 
-vim:set et sw=4 ts=4 tw=78:
+vim:set et ft=help sw=4 ts=4 tw=78:
