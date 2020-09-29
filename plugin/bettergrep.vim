@@ -30,8 +30,8 @@ endif
 if !g:bettergrep_no_abbrev
   cnoreabbrev <expr> grep     (getcmdtype() ==# ':' && getcmdline() ==# 'grep')  ? 'Grep'  : 'grep'
   cnoreabbrev <expr> lgrep    (getcmdtype() ==# ':' && getcmdline() ==# 'lgrep') ? 'LGrep' : 'lgrep'
-  cnoreabbrev <expr> grepadd  (getcmdtype() ==# ':' && getcmdline() ==# 'grep')  ? 'Grepadd'  : 'grepadd'
-  cnoreabbrev <expr> lgrepadd (getcmdtype() ==# ':' && getcmdline() ==# 'lgrep') ? 'LGrepadd' : 'lgrepadd'
+  cnoreabbrev <expr> grepadd  (getcmdtype() ==# ':' && getcmdline() ==# 'grepadd')  ? 'Grepadd'  : 'grepadd'
+  cnoreabbrev <expr> lgrepadd (getcmdtype() ==# ':' && getcmdline() ==# 'lgrepadd') ? 'LGrepadd' : 'lgrepadd'
 endif
 
 " vim: et sts=2 sw=2 foldmethod=marker
