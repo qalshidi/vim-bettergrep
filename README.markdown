@@ -16,7 +16,7 @@ with a few of my own additions.
     - [ack](https://beyondgrep.com/)
     - Whatever `grepprg` is set to.
 - Asynchronous grepping if using NeoVim.
-- `<C-g>` mapping to `:Grep` in command line.
+- `<C-g>` mapping to `:Grep` in command mode.
 
 Installation
 ------------
