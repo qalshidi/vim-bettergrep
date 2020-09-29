@@ -10,10 +10,10 @@ with a few of my own additions.
   `lgrepadd`
 - In general faster than regular `:grep`
 - Autoconfigures the grep program based on what you have in your `PATH` in the following order:
+    - Whatever `g:bettergrepprg` is set to.
     - [ripgrep](https://github.com/BurntSushi/ripgrep)
     - [ag (The Silver Seacher)](https://github.com/ggreer/the_silver_searcher)
     - [ack](https://beyondgrep.com/)
-    - Whatever `g:bettergrepprg` is set to.
     - Whatever `grepprg` is set to.
 - Asynchronous grepping if using NeoVim.
 - `<C-g>` mapping to `:Grep` in command line.
