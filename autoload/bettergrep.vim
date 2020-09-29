@@ -18,12 +18,12 @@ endif
 
 if exists("*jobstart")                " NeoVim async method
 
-  function! bettergrep#Grep(listing, ...)
+  function! bettergrep#Grep(cmd, ...)
     
-    let s:listing = a:listing
+    let s:cmd = a:cmd
 
     function! s:on_out(job_id, data, event) dict
-      execute s:listing . ' join(a:data, "\n")'
+      execute s:cmd . ' join(a:data, "\n")'
     endfunction
 
     function! s:on_error(job_id, data, event) dict
@@ -47,8 +47,8 @@ else                                  " regular blocking method
   " Thanks to RomainL's gist
   " https://gist.github.com/romainl/56f0c28ef953ffc157f36cc495947ab3
 
-  function! bettergrep#Grep(listing, ...)
-      execute a:listing . " " . "system(join([g:bettergrepprg] + [expandcmd(join(a:000, ' '))], ' '))"
+  function! bettergrep#Grep(cmd, ...)
+      execute a:cmd . " " . "system(join([g:bettergrepprg] + [expandcmd(join(a:000, ' '))], ' '))"
   endfunction
 
 endif

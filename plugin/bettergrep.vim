@@ -28,14 +28,18 @@ if !g:bettergrep_no_mappings
 endif
 
 if !g:bettergrep_no_abbrev
-  cnoreabbrev <expr> grep     (getcmdtype() ==# ':' && getcmdline() ==# 'grep')  ? 'Grep'  : 'grep'
-  cnoreabbrev <expr> lgrep    (getcmdtype() ==# ':' && getcmdline() ==# 'lgrep') ? 'LGrep' : 'lgrep'
-  cnoreabbrev <expr> grepa  (getcmdtype() ==# ':' && getcmdline() ==# 'grepa')  ? 'Grepadd'  : 'grepa'
-  cnoreabbrev <expr> lgrepa (getcmdtype() ==# ':' && getcmdline() ==# 'lgrepa') ? 'LGrepadd' : 'lgrepa'
-  cnoreabbrev <expr> grepad  (getcmdtype() ==# ':' && getcmdline() ==# 'grepad')  ? 'Grepadd'  : 'grepad'
-  cnoreabbrev <expr> lgrepad (getcmdtype() ==# ':' && getcmdline() ==# 'lgrepad') ? 'LGrepadd' : 'lgrepad'
-  cnoreabbrev <expr> grepadd  (getcmdtype() ==# ':' && getcmdline() ==# 'grepadd')  ? 'Grepadd'  : 'grepadd'
-  cnoreabbrev <expr> lgrepadd (getcmdtype() ==# ':' && getcmdline() ==# 'lgrepadd') ? 'LGrepadd' : 'lgrepadd'
+  cnoreabbrev <expr> gr        (getcmdtype() ==# ':' && getcmdline() ==# 'gr')  ? 'Grep'  : 'gr'
+  cnoreabbrev <expr> lgr       (getcmdtype() ==# ':' && getcmdline() ==# 'lgr') ? 'LGrep' : 'lgr'
+  cnoreabbrev <expr> gre       (getcmdtype() ==# ':' && getcmdline() ==# 'gre')  ? 'Grep'  : 'gre'
+  cnoreabbrev <expr> lgre      (getcmdtype() ==# ':' && getcmdline() ==# 'lgre') ? 'LGrep' : 'lgre'
+  cnoreabbrev <expr> grep      (getcmdtype() ==# ':' && getcmdline() ==# 'grep')  ? 'Grep'  : 'grep'
+  cnoreabbrev <expr> lgrep     (getcmdtype() ==# ':' && getcmdline() ==# 'lgrep') ? 'LGrep' : 'lgrep'
+  cnoreabbrev <expr> grepa     (getcmdtype() ==# ':' && getcmdline() ==# 'grepa')  ? 'Grepadd'  : 'grepa'
+  cnoreabbrev <expr> lgrepa    (getcmdtype() ==# ':' && getcmdline() ==# 'lgrepa') ? 'LGrepadd' : 'lgrepa'
+  cnoreabbrev <expr> grepad    (getcmdtype() ==# ':' && getcmdline() ==# 'grepad')  ? 'Grepadd'  : 'grepad'
+  cnoreabbrev <expr> lgrepad   (getcmdtype() ==# ':' && getcmdline() ==# 'lgrepad') ? 'LGrepadd' : 'lgrepad'
+  cnoreabbrev <expr> grepadd   (getcmdtype() ==# ':' && getcmdline() ==# 'grepadd')  ? 'Grepadd'  : 'grepadd'
+  cnoreabbrev <expr> lgrepadd  (getcmdtype() ==# ':' && getcmdline() ==# 'lgrepadd') ? 'LGrepadd' : 'lgrepadd'
 endif
 
 " vim: et sts=2 sw=2 foldmethod=marker
