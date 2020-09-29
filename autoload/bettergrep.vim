@@ -1,5 +1,7 @@
 " vim-bettergrep
 " Maintainer: Qusai Al Shidi
+" Email:      me@qalshidi.science
+" Website:    https://github.com/qalshidi/vim-bettergrep
 
 " decide on grep program
 if !exists('g:bettergrepprg')

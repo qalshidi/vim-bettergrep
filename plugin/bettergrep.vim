@@ -1,5 +1,8 @@
 " vim-bettergrep
 " Maintainer: Qusai Al Shidi
+" Email:      me@qalshidi.science
+" Website:    https://github.com/qalshidi/vim-bettergrep
+
 if exists('g:bettergrep_loaded')
   finish
 endif
