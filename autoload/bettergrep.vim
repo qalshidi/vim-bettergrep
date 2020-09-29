@@ -18,7 +18,7 @@ endif
 
 if exists("*jobstart")                " NeoVim async method
 
-  function! bettergrep#Grep(cmd, ...)
+  function! bettergrep#Grep(cmd, ...) abort
     
     let s:cmd = a:cmd
 
@@ -47,7 +47,7 @@ else                                  " regular blocking method
   " Thanks to RomainL's gist
   " https://gist.github.com/romainl/56f0c28ef953ffc157f36cc495947ab3
 
-  function! bettergrep#Grep(cmd, ...)
+  function! bettergrep#Grep(cmd, ...) abort
       execute a:cmd . " " . "system(join([g:bettergrepprg] + [expandcmd(join(a:000, ' '))], ' '))"
   endfunction
 

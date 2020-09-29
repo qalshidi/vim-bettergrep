@@ -8,14 +8,6 @@ if exists('g:bettergrep_loaded')
 endif
 let g:bettergrep_loaded = 1
 
-" Options
-if !exists('g:bettergrep_no_mappings')
-  let g:bettergrep_no_mappings = 0
-endif
-if !exists('g:bettergrep_no_abbrev')
-  let g:bettergrep_no_abbrev = 0
-endif
-
 " Commands
 command! -nargs=+ -complete=file_in_path -bar Grep     call bettergrep#Grep('cgetexpr', <f-args>)
 command! -nargs=+ -complete=file_in_path -bar LGrep    call bettergrep#Grep('lgetexpr', <f-args>)
@@ -23,12 +15,12 @@ command! -nargs=+ -complete=file_in_path -bar Grepadd  call bettergrep#Grep('cad
 command! -nargs=+ -complete=file_in_path -bar LGrepadd call bettergrep#Grep('laddexpr', <f-args>)
 
 " Mappings
-if !g:bettergrep_no_mappings
+if !get(g:, 'bettergrep_no_mappings', 0)
   nnoremap <C-g> :Grep 
 endif
 
 " Abbreviations
-if !g:bettergrep_no_abbrev
+if !get(g:, 'bettergrep_no_abbrev', 0)
   cnoreabbrev <expr> gr        (getcmdtype() ==# ':' && getcmdline() ==# 'gr')  ? 'Grep'  : 'gr'
   cnoreabbrev <expr> lgr       (getcmdtype() ==# ':' && getcmdline() ==# 'lgr') ? 'LGrep' : 'lgr'
   cnoreabbrev <expr> gre       (getcmdtype() ==# ':' && getcmdline() ==# 'gre')  ? 'Grep'  : 'gre'
