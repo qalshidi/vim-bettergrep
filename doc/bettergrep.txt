@@ -46,6 +46,13 @@ command-line mode commands with the custom-made ones from this plugin.
     see: |:lgrepadd|
 
 ==============================================================================
+MAPPINGS                                                 *bettergrep-mappings*
+
+                                                                      *CTRL-G*
+CTRL-G          Insert |:Grep| into command-line mode and start cursor after
+                it.
+
+==============================================================================
 CONFIGURATION                                       *bettergrep-configuration*
 
 g:bettergrepprg                                              *g:bettergrepprg*
