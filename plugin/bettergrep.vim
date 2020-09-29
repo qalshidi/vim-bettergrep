@@ -27,6 +27,7 @@ if !g:bettergrep_no_mappings
   nnoremap <C-g> :Grep 
 endif
 
+" Abbreviations
 if !g:bettergrep_no_abbrev
   cnoreabbrev <expr> gr        (getcmdtype() ==# ':' && getcmdline() ==# 'gr')  ? 'Grep'  : 'gr'
   cnoreabbrev <expr> lgr       (getcmdtype() ==# ':' && getcmdline() ==# 'lgr') ? 'LGrep' : 'lgr'
