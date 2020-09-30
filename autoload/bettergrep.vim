@@ -16,6 +16,24 @@ if !exists('g:bettergrepprg')
   endif
 endif
 
+if exists('*expandcmd')                 " Vim 7 and NeoVim 0.3.3 support
+
+  function! s:makecmd(args) abort
+    let grep_cmd  = [g:bettergrepprg]
+    let grep_cmd += [expandcmd(join(a:args, ' '))]
+    return join(grep_cmd, ' ')
+  endfunction
+
+else
+
+  function! s:makecmd(args) abort
+    let grep_cmd  = [g:bettergrepprg]
+    let grep_cmd += map(copy(a:args), 'expand(v:val)')  " Substitute wildcards
+    return join(grep_cmd, ' ')
+  endfunction
+
+endif
+
 if exists("*jobstart")                " NeoVim async method
 
   function! bettergrep#Grep(cmd, ...) abort
@@ -48,15 +66,9 @@ if exists("*jobstart")                " NeoVim async method
     \ 'on_exit':   function('s:on_exit')
     \ }
 
-    let grep_cmd = split(g:bettergrepprg) + [expandcmd(join(a:000, ' '))]
-    let s:grep_job = jobstart(grep_cmd, s:callbacks)
-  endfunction
+    let grep_cmd = s:makecmd(a:000)
+    let s:grep_job = jobstart(s:makecmd(a:000), s:callbacks)
 
-elseif !exists('*expandcmd')          " Vim 7 support - regular blocking
-
-  function! bettergrep#Grep(cmd, ...) abort
-    let expandedcmd = map(copy(a:000), 'expand(v:val)')     " Substitute wildcards
-    execute a:cmd . " " . "system(join([g:bettergrepprg] + [join(expandedcmd, ' ')], ' '))"
   endfunction
 
 else                                  " regular blocking method
@@ -65,7 +77,7 @@ else                                  " regular blocking method
   " https://gist.github.com/romainl/56f0c28ef953ffc157f36cc495947ab3
 
   function! bettergrep#Grep(cmd, ...) abort
-    execute a:cmd . " " . "system(join([g:bettergrepprg] + [expandcmd(join(a:000, ' '))], ' '))"
+    execute a:cmd . " " . "system(s:makecmd(a:000))"
   endfunction
 
 endif

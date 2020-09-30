@@ -17,6 +17,7 @@ command! -nargs=+ -complete=file_in_path -bar LGrepadd call bettergrep#Grep('lad
 " Mappings
 if !get(g:, 'bettergrep_no_mappings', 0)
   nnoremap <C-g> :Grep 
+  nnoremap <M-g> :Grepadd 
 endif
 
 " Abbreviations

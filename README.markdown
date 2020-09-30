@@ -76,6 +76,13 @@ It is not ignoring my hidden files/`.gitignore` files!
 Frequently Asked Questions
 --------------------------
 
+How do I grep a pattern with spaces?
+
+- Try enclosing your pattern in escaped single quotes like this:
+```vim
+:Grep \'my pattern\' my/file/path
+```
+
 Why not use Vim 8's asynchronous jobs if I'm not using NeoVim?
 
 - I will be very happy accept a pull request :). As it stands, it is still fast
