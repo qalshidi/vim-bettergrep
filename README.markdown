@@ -3,6 +3,9 @@ vim-bettergrep
 
 A better way to grep in vim.
 
+The purpose of this plugin is to provide a *lightweight* and enhanced version
+of the original `:grep` family of Vim commands.
+
 This plugin implements [RomainL's Instant grep + quickfix](https://gist.github.com/romainl/56f0c28ef953ffc157f36cc495947ab3)
 with a few of my own additions.
 
@@ -16,7 +19,7 @@ with a few of my own additions.
     - [ack](https://beyondgrep.com/)
     - Whatever `grepprg` is set to.
 - Asynchronous grepping if using NeoVim.
-- `<C-g>` mapping to `:Grep` in command mode.
+- `<C-g>` in normal mode mapping to `:Grep` in command mode.
 
 Installation
 ------------
@@ -78,3 +81,12 @@ Why not use Vim 8's asynchronous jobs if I'm not using NeoVim?
 - I will be very happy accept a pull request :). As it stands, it is still fast
   without it assuming you use a faster grepper like
   [ripgrep](https://github.com/BurntSushi/ripgrep) or The Silver Searcher.
+
+How is this different from [vim-grepper](https://github.com/mhinz/vim-grepper)?
+
+- *vim-bettergrep* is a lightweight enhancement to `:grep` and tries to imitate
+  the original Vim commands. To me, it seems *vim-grepper* is beefier and its
+  own beast, allowing multiple grep commands and loading everything at start up
+  as opposed to using Vim's `autoload` feature. They both have their own use
+  cases. I am happy with original Vim's grep and don't necessarily need more
+  than that.
