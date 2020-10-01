@@ -99,7 +99,7 @@ elseif exists("*job_start")            " Vim async method
 
   function! bettergrep#Grep(cmd, ...) abort
     
-    call s:bettergre_post()
+    call s:bettergrep_post()
 
     let s:cmd = a:cmd
     let s:data = ''
