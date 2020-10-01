@@ -39,8 +39,9 @@ if exists("*jobstart")                " NeoVim async method
   function! bettergrep#Grep(cmd, ...) abort
     
     if exists('s:grep_job')
-      call jobstop(s:grep_job)
-      unlet! s:grep_job
+      let job_to_kill = s:grep_job
+      unlet! s:grep_job  " unlet first just incase
+      call jobstop(job_to_kill)
     endif
 
     let s:cmd = a:cmd
@@ -66,7 +67,6 @@ if exists("*jobstart")                " NeoVim async method
     \ 'on_exit':   function('s:on_exit')
     \ }
 
-    let grep_cmd = s:makecmd(a:000)
     let s:grep_job = jobstart(s:makecmd(a:000), s:callbacks)
 
   endfunction
