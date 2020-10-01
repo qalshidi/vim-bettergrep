@@ -10,10 +10,11 @@ INTRODUCTION                                                      *bettergrep*
 
 This plugin uses ideas from RomainL's gist
 (https://gist.github.com/romainl/56f0c28ef953ffc157f36cc495947ab3)
-about improving how Vim does grep. If you are using NeoVim, this will also
-grep asynchronously. The intended use is as a replacement to Vim's built-in
-|:grep| family of functions. This plugin by default replaces the default
-command-line mode commands with the custom-made ones from this plugin.
+about improving how Vim does grep. If you are using NeoVim or a recent version
+of Vim 8+, this will also grep asynchronously. The intended use is as a
+replacement to Vim's built-in |:grep| family of functions.
+This plugin by default replaces the default command-line mode commands with
+the custom-made ones from this plugin.
 
 :Grep [options] {pattern} [{directory}]                                *:Grep*
 
@@ -59,6 +60,7 @@ CTRL-G          Insert |:Grep| into command-line mode and start cursor after
                                                             *bettergrep-ALT-G*
 ALT-G           Insert |:Grepadd| into the command-line mode and start cursor
                 after it.
+
 ==============================================================================
 CONFIGURATION                                       *bettergrep-configuration*
 

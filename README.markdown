@@ -19,7 +19,7 @@ with a few of my own additions.
     - [ag (The Silver Seacher)](https://github.com/ggreer/the_silver_searcher)
     - [ack](https://beyondgrep.com/)
     - Whatever `grepprg` is set to.
-- Asynchronous grepping if using NeoVim.
+- Asynchronous grepping.
 - `<C-g>` in normal mode mapping to `:Grep` in command mode.
 
 Installation
@@ -83,12 +83,6 @@ How do I grep a pattern with spaces?
 ```vim
 :Grep 'my pattern' my/file/path
 ```
-
-Why not use Vim 8's asynchronous jobs if I'm not using NeoVim?
-
-- I will be very happy accept a pull request :). As it stands, it is still fast
-  without it assuming you use a faster grepper like
-  [ripgrep](https://github.com/BurntSushi/ripgrep) or The Silver Searcher.
 
 How is this different from [vim-grepper](https://github.com/mhinz/vim-grepper)?
 
