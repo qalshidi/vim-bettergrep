@@ -59,6 +59,50 @@ if exists("*jobstart")                " NeoVim async method
 
   endfunction
 
+elseif exists("*job_start")
+
+  function! bettergrep#Grep(cmd, ...) abort
+    
+    if exists('s:grep_job')
+      call job_stop(s:grep_job)
+      unlet! s:grep_job
+    endif
+
+    let s:cmd = a:cmd
+    let s:data = ''
+
+    function! s:on_out(job_id, data) 
+      let s:data .= a:data . "\n"
+    endfunction
+
+    function! s:on_error(job_id, data)
+      if len(a:data) > 1
+        echo 'bettergrep E: ' . join([a:data], "\n")
+      endif
+    endfunction
+
+    function! s:on_exit(job_id, status)
+      let job_to_kill = s:grep_job
+      if len(s:data) > 1
+        execute s:cmd . ' join([s:data], "\n")'
+      endif
+      unlet! s:grep_job
+      call job_stop(job_to_kill)
+    endfunction
+
+    let s:callbacks = {
+    \ 'callback': function('s:on_out'),
+    \ 'err_cb':   function('s:on_error'),
+    \ 'exit_cb':  function('s:on_exit'),
+    \ 'in_io':    'null'
+    \ }
+
+    let grep_cmd = s:makecmd(a:000)
+    let cmd = split(&shell) + split(&shellcmdflag) + [grep_cmd]
+    let s:grep_job = job_start(cmd, s:callbacks)
+
+  endfunction
+
 else                                  " regular blocking method
 
   " Thanks to RomainL's gist
