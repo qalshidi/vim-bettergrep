@@ -16,23 +16,11 @@ if !exists('g:bettergrepprg')
   endif
 endif
 
-if exists('*expandcmd')                 " Vim 7 and NeoVim 0.3.3 support
-
-  function! s:makecmd(args) abort
-    let grep_cmd  = [g:bettergrepprg]
-    let grep_cmd += [expandcmd(join(a:args, ' '))]
-    return join(grep_cmd, ' ')
-  endfunction
-
-else
-
-  function! s:makecmd(args) abort
-    let grep_cmd  = [g:bettergrepprg]
-    let grep_cmd += map(copy(a:args), 'expand(v:val)')  " Substitute wildcards
-    return join(grep_cmd, ' ')
-  endfunction
-
-endif
+function! s:makecmd(args) abort
+  let grep_cmd  = [g:bettergrepprg]
+  let grep_cmd += map(copy(a:args), 'expand(v:val)')  " Substitute wildcards
+  return join(grep_cmd, ' ')
+endfunction
 
 if exists("*jobstart")                " NeoVim async method
 

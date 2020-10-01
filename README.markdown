@@ -6,7 +6,8 @@ A better way to grep in vim.
 The purpose of this plugin is to provide a *lightweight* and enhanced version
 of the original `:grep` family of Vim commands.
 
-This plugin implements [RomainL's Instant grep + quickfix](https://gist.github.com/romainl/56f0c28ef953ffc157f36cc495947ab3)
+This plugin implements
+[RomainL's Instant grep + quickfix](https://gist.github.com/romainl/56f0c28ef953ffc157f36cc495947ab3)
 with a few of my own additions.
 
 - Abbreviates `:grep` with `:Grep`, as well as the rest: `:lgrep`, `:grepadd`,
@@ -78,9 +79,9 @@ Frequently Asked Questions
 
 How do I grep a pattern with spaces?
 
-- Try enclosing your pattern in escaped single quotes like this:
+- Try enclosing your pattern in single quotes like this:
 ```vim
-:Grep \'my pattern\' my/file/path
+:Grep 'my pattern' my/file/path
 ```
 
 Why not use Vim 8's asynchronous jobs if I'm not using NeoVim?

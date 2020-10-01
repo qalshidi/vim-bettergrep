@@ -24,10 +24,9 @@ command-line mode commands with the custom-made ones from this plugin.
     quotes ('). Typing |:grep| in |command-line mode| will replace it with
     |:Grep|. To turn off this behavior, see |g:bettergrep_no_abbrev|.
 
-    bettergrep runs the command in shell this will have minor behavior
-    differences like parsing spaces. If you want to search a pattern with
-    a space try enclosing the pattern with an escaped single-quote >
-        :Grep \'my pattern\' path/to/file
+    bettergrep runs the command in shell. If you want to search a pattern with
+    a space try enclosing the pattern with a single-quote. >
+        :Grep 'my pattern' path/to/file
 <
     see: |:grep|
 
