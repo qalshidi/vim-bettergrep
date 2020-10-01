@@ -59,17 +59,6 @@ Don't abbreviate my `:grep`!
 let g:bettergrep_no_abbrev = 1
 ```
 
-I want the quickfix/location list window to open if there are results!
-
-```vim
-" Quick fix window automatically opens up if populated
-augroup qfopen
-    autocmd!
-    autocmd QuickFixCmdPost cgetexpr cwindow
-    autocmd QuickFixCmdPost lgetexpr lwindow
-augroup end
-```
-
 It is not ignoring my hidden files/`.gitignore` files!
 
 - Use [ripgrep](https://github.com/BurntSushi/ripgrep)

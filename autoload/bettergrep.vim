@@ -16,6 +16,46 @@ if !exists('g:bettergrepprg')
   endif
 endif
 
+function! s:bettergrep_pre() abort
+  " Side effects before grepping like quick fix autocmds
+
+  augroup s:qfopen
+      autocmd!
+      autocmd QuickFixCmdPost cgetexpr cwindow
+      autocmd QuickFixCmdPost lgetexpr lwindow
+  augroup end
+
+  if exists('s:grep_job')
+
+    if exists ('*jobstop')
+      let job_to_kill = s:grep_job
+      unlet! s:grep_job  " unlet first just incase
+      call jobstop(job_to_kill)
+    endif
+
+    if exists('*job_stop')
+      let job_to_kill = s:grep_job
+      call job_stop(job_to_kill)
+      unlet! s:grep_job
+    endif
+
+  endif
+
+endfunction
+
+function! s:bettergrep_post() abort
+  " Side effects after grepping like quick fix autocmd removal
+
+  augroup s:qfopen  " remove autocommands from user configuration after open
+    autocmd!
+  augroup end
+
+  if exists('s:grep_job')
+    unlet! s:grep_job
+  endif
+
+endfunction
+
 function! s:makecmd(args) abort
   let grep_cmd  = [g:bettergrepprg]
   let grep_cmd += map(copy(a:args), 'expand(v:val)')  " Substitute wildcards
@@ -26,11 +66,7 @@ if exists("*jobstart")                " NeoVim async method
 
   function! bettergrep#Grep(cmd, ...) abort
     
-    if exists('s:grep_job')
-      let job_to_kill = s:grep_job
-      unlet! s:grep_job  " unlet first just incase
-      call jobstop(job_to_kill)
-    endif
+    call s:bettergrep_pre()
 
     let s:cmd = a:cmd
 
@@ -45,7 +81,7 @@ if exists("*jobstart")                " NeoVim async method
     endfunction
 
     function! s:on_exit(job_id, data, event) dict
-      unlet! s:grep_job
+      call s:bettergrep_post()
     endfunction
 
     let s:callbacks = {
@@ -59,14 +95,11 @@ if exists("*jobstart")                " NeoVim async method
 
   endfunction
 
-elseif exists("*job_start")
+elseif exists("*job_start")            " Vim async method
 
   function! bettergrep#Grep(cmd, ...) abort
     
-    if exists('s:grep_job')
-      call job_stop(s:grep_job)
-      unlet! s:grep_job
-    endif
+    call s:bettergre_post()
 
     let s:cmd = a:cmd
     let s:data = ''
@@ -86,7 +119,7 @@ elseif exists("*job_start")
       if len(s:data) > 1
         execute s:cmd . ' join([s:data], "\n")'
       endif
-      unlet! s:grep_job
+      call s:bettergrep_post()
       call job_stop(job_to_kill)
     endfunction
 
@@ -108,9 +141,13 @@ else                                  " regular blocking method
   " Thanks to RomainL's gist
   " https://gist.github.com/romainl/56f0c28ef953ffc157f36cc495947ab3
 
+  call s:bettergrep_pre()
+
   function! bettergrep#Grep(cmd, ...) abort
     execute a:cmd . " " . "system(s:makecmd(a:000))"
   endfunction
+
+  call s:bettergrep_post()
 
 endif
 

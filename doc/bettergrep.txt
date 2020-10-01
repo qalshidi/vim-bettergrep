@@ -20,10 +20,11 @@ the custom-made ones from this plugin.
 
     Search recursively in {directory} (defaults to current directory) for
     {pattern}. You may uses [options] corresponding to the grep program set by
-    |g:bettergrepprg|. It will populate the |quickfix| window with the
-    results. If your pattern contains a space consider enclosing it in single
-    quotes ('). Typing |:grep| in |command-line mode| will replace it with
-    |:Grep|. To turn off this behavior, see |g:bettergrep_no_abbrev|.
+    |g:bettergrepprg|. It will populate the |quickfix| window and open it 
+    with the results. If your pattern contains a space consider enclosing
+    it in single quotes ('). Typing |:grep| in |command-line mode| will replace
+    it with |:Grep|.
+    To turn off this behavior, see |g:bettergrep_no_abbrev|.
 
     bettergrep runs the command in shell. If you want to search a pattern with
     a space try enclosing the pattern with a single-quote. >
