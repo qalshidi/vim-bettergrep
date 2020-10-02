@@ -3,10 +3,10 @@
 " Email:      me@qalshidi.science
 " Website:    https://github.com/qalshidi/vim-bettergrep
 
-if exists('g:bettergrep_loaded')
+if exists('g:loaded_bettergrep')
   finish
 endif
-let g:bettergrep_loaded = 1
+let g:loaded_bettergrep = 1
 
 " Commands
 command! -nargs=+ -complete=file_in_path -bar Grep     call bettergrep#Grep('cgetexpr', <f-args>)

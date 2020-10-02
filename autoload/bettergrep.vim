@@ -3,7 +3,7 @@
 " Email:      me@qalshidi.science
 " Website:    https://github.com/qalshidi/vim-bettergrep
 
-" decide on grep program
+" decide on grep program {{{
 if !exists('g:bettergrepprg')
   if executable('rg')
     let g:bettergrepprg = "rg --vimgrep"
@@ -15,9 +15,10 @@ if !exists('g:bettergrepprg')
     let g:bettergrepprg = &grepprg
   endif
 endif
+" }}}
 
 function! s:bettergrep_pre() abort
-  " Side effects before grepping like quick fix autocmds
+  " Side effects before grepping like quick fix autocmds {{{
 
   augroup s:qfopen
       autocmd!
@@ -42,9 +43,10 @@ function! s:bettergrep_pre() abort
   endif
 
 endfunction
+" }}}
 
 function! s:bettergrep_post() abort
-  " Side effects after grepping like quick fix autocmd removal
+  " Side effects after grepping like quick fix autocmd removal {{{
 
   augroup s:qfopen  " remove autocommands from user configuration after open
     autocmd!
@@ -55,14 +57,18 @@ function! s:bettergrep_post() abort
   endif
 
 endfunction
+" }}}
 
 function! s:makecmd(args) abort
+  " Make the command line to send to shell {{{
   let grep_cmd  = [g:bettergrepprg]
   let grep_cmd += map(copy(a:args), 'expand(v:val)')  " Substitute wildcards
   return join(grep_cmd, ' ')
 endfunction
+" }}}
 
-if exists("*jobstart")                " NeoVim async method
+" NeoVim async method {{{
+if exists('*jobstart')
 
   function! bettergrep#Grep(cmd, ...) abort
     
@@ -95,7 +101,9 @@ if exists("*jobstart")                " NeoVim async method
 
   endfunction
 
-elseif exists("*job_start")            " Vim async method
+" }}}
+" Vim async method {{{
+elseif exists('*job_start')
 
   function! bettergrep#Grep(cmd, ...) abort
     
@@ -136,19 +144,20 @@ elseif exists("*job_start")            " Vim async method
 
   endfunction
 
-else                                  " regular blocking method
+" }}}
+" regular blocking method {{{
+else
 
   " Thanks to RomainL's gist
   " https://gist.github.com/romainl/56f0c28ef953ffc157f36cc495947ab3
 
-  call s:bettergrep_pre()
-
   function! bettergrep#Grep(cmd, ...) abort
+    call s:bettergrep_pre()
     execute a:cmd . " " . "system(s:makecmd(a:000))"
+    call s:bettergrep_post()
   endfunction
 
-  call s:bettergrep_post()
-
 endif
+" }}}
 
 " vim: et sts=2 sw=2 foldmethod=marker
