@@ -81,3 +81,13 @@ How is this different from [vim-grepper](https://github.com/mhinz/vim-grepper)?
   as opposed to using Vim's `autoload` feature. They both have their own use
   cases. I am happy with original Vim's grep and don't necessarily need more
   than that.
+
+How is this different from [ack.vim](https://github.com/mileszs/ack.vim)?
+
+- *bettergrep* is mostly like *ack.vim* with a bit more opinionated defaults,
+  quickfix window mappings that are more like
+  [NERDTree](https://github.com/preservim/nerdtree) mappings. Asynchronous 
+  execution baked in by default. *bettergrep* also is more agnostic than
+  *ack.vim* albeit *ack.vim* is still configurable, so the command functions are
+  `:Grep` instead of `:Ack`.
+
