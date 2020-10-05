@@ -4,6 +4,7 @@
 " Website:    https://github.com/qalshidi/vim-bettergrep
 
 " decide on grep program {{{
+
 if !exists('g:bettergrepprg')
   if executable('rg')
     let g:bettergrepprg = "rg --vimgrep"
@@ -15,7 +16,29 @@ if !exists('g:bettergrepprg')
     let g:bettergrepprg = &grepprg
   endif
 endif
+
 " }}}
+" Mappings {{{
+
+let s:qf_mappings = {}
+let s:qf_mappings['t'] = "<C-W><CR><C-W>T"                " open in new tab
+let s:qf_mappings['T'] = "<C-W><CR><C-W>TgT<C-W>j"        " open in new tab keep focus
+let s:qf_mappings['o'] = "<CR>"                           " open
+let s:qf_mappings['O'] = "<CR><C-W>p<C-W>c"               " open and close qf
+let s:qf_mappings['go'] = "<CR><C-W>p"                    " open to preview keep focus
+let s:qf_mappings['i'] = "<C-W><CR><C-W>K"                " open horizontal split
+let s:qf_mappings['I'] = "<C-W><CR><C-W>K<C-W>b"          " open horiz maintain focus
+let s:qf_mappings['q'] = "<C-W>c"                         " close qf
+let s:qf_mappings['s'] = "<C-W><CR><C-W>H<C-W>b<C-W>J<C-W>t"  " open vert split
+let s:qf_mappings['gs'] = "<C-W><CR><C-W>H<C-W>b<C-W>J"   " open vert maintain focus
+
+function! s:apply_mappings() abort
+  for key in keys(s:qf_mappings)
+    execute 'nnoremap <buffer> <silent> ' . key . ' ' . s:qf_mappings[key]
+  endfor
+endfunction
+
+"}}}
 
 function! s:bettergrep_pre() abort
   " Side effects before grepping like quick fix autocmds {{{
@@ -24,6 +47,11 @@ function! s:bettergrep_pre() abort
       autocmd!
       autocmd QuickFixCmdPost cgetexpr cwindow
       autocmd QuickFixCmdPost lgetexpr lwindow
+  augroup end
+
+  augroup s:qfmappings
+      autocmd!
+      autocmd Filetype qf call s:apply_mappings()
   augroup end
 
   if exists('s:grep_job')
@@ -50,6 +78,10 @@ function! s:bettergrep_post() abort
 
   augroup s:qfopen  " remove autocommands from user configuration after open
     autocmd!
+  augroup end
+
+  augroup s:qfmappings
+      autocmd!
   augroup end
 
   if exists('s:grep_job')

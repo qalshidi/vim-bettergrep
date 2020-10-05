@@ -54,6 +54,13 @@ the custom-made ones from this plugin.
 ==============================================================================
 MAPPINGS                                                 *bettergrep-mappings*
 
+These are a list of default mappings in bettergrep. To disable them add >
+    let g:bettergrep_no_mappings = 1
+< to your |vimrc|.
+
+                                                      *bettergrep-normal-mode*
+Normal Mode Mappings ~
+
                                                            *bettergrep-CTRL-G*
 CTRL-G          Insert |:Grep| into command-line mode and start cursor after
                 it.
@@ -61,6 +68,10 @@ CTRL-G          Insert |:Grep| into command-line mode and start cursor after
                                                             *bettergrep-ALT-G*
 ALT-G           Insert |:Grepadd| into the command-line mode and start cursor
                 after it.
+
+                                                      *bettergrep_qf_mappings*
+Quickfix Window Mappings ~
+
 
 ==============================================================================
 CONFIGURATION                                       *bettergrep-configuration*
