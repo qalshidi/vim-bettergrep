@@ -132,7 +132,7 @@ if exists('*jobstart')
 
     function! s:on_error(job_id, data, event) dict
       if len(a:data) > 1
-        echo 'bettergrep E: ' . join(a:data, "\n")
+        echom 'bettergrep E: ' . join(a:data, "\n")
       endif
     endfunction
 
@@ -169,7 +169,7 @@ elseif exists('*job_start')
 
     function! s:on_error(job_id, data)
       if len(a:data) > 1
-        echo 'bettergrep E: ' . join([a:data], "\n")
+        echom 'bettergrep E: ' . join([a:data], "\n")
       endif
     endfunction
 
