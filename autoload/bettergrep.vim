@@ -21,37 +21,54 @@ endif
 " Mappings {{{
 
 let s:qf_mappings = {}
-let s:qf_mappings['t'] = "<C-W><CR><C-W>T"                " open in new tab
-let s:qf_mappings['T'] = "<C-W><CR><C-W>TgT<C-W>j"        " open in new tab keep focus
-let s:qf_mappings['o'] = "<CR>"                           " open
-let s:qf_mappings['O'] = "<CR><C-W>p<C-W>c"               " open and close qf
-let s:qf_mappings['go'] = "<CR><C-W>p"                    " open to preview keep focus
-let s:qf_mappings['i'] = "<C-W><CR><C-W>K"                " open horizontal split
-let s:qf_mappings['I'] = "<C-W><CR><C-W>K<C-W>b"          " open horiz maintain focus
 let s:qf_mappings['q'] = "<C-W>c"                         " close qf
-let s:qf_mappings['s'] = "<C-W><CR><C-W>H<C-W>b<C-W>J<C-W>t"  " open vert split
-let s:qf_mappings['gs'] = "<C-W><CR><C-W>H<C-W>b<C-W>J"   " open vert maintain focus
+let s:qf_mappings['t'] = "<C-W><CR><C-W>T"                " open in new tab
+let s:qf_mappings['T'] = s:qf_mappings['t'] . "gT<C-W>j"  " open in new tab keep focus
+let s:qf_mappings['o'] = "<CR>"                           " open
+let s:qf_mappings['<CR>'] = s:qf_mappings['o']            " open
+let s:qf_mappings['O'] = "<CR><C-W>p"                     " open to preview keep focus
+let s:qf_mappings['go'] = s:qf_mappings['O'] . s:qf_mappings['q'] " open and close qf
+let s:qf_mappings['i'] = "<C-W><CR><C-W>K"                " open horizontal split
+let s:qf_mappings['I'] = s:qf_mappings['i'] . "<C-W>b"   " open horiz maintain focus
+let s:qf_mappings['gi'] = s:qf_mappings['I'] . s:qf_mappings['q'] " open horiz close qf
+let s:qf_mappings['S'] = "<C-W><CR><C-W>H<C-W>b<C-W>J"   " open vert maintain focus
+let s:qf_mappings['s'] = s:qf_mappings['S'] . "<C-W>t"  " open vert split
+let s:qf_mappings['gs'] = s:qf_mappings['S'] . s:qf_mappings['q']  " open vert close qf
+let s:qf_mappings['g?'] = ":help bettergrep-mappings-qf<CR>"   " open help
 
 function! s:apply_mappings() abort
+  " Apply mappings only in qf window
+
+  if exists('g:bettergrep_qf_mappings')
+    call extend(s:qf_mappings, g:bettergrep_qf_mappings, 'force')
+  endif
+
   for key in keys(s:qf_mappings)
-    execute 'nnoremap <buffer> <silent> ' . key . ' ' . s:qf_mappings[key]
+    execute "nnoremap <buffer> <silent> " . key . ' ' . s:qf_mappings[key]
   endfor
 endfunction
 
 "}}}
 
-function! s:bettergrep_pre() abort
+function! s:bettergrep_pre(grep_cmd) abort
   " Side effects before grepping like quick fix autocmds {{{
 
+  let s:qf_attrs = {
+    \ 'title': 'bettergrep: ' . a:grep_cmd,
+    \ 'context': {'name': 'bettergrep'},
+    \ }
+
   augroup s:qfopen
-      autocmd!
-      autocmd QuickFixCmdPost cgetexpr cwindow
-      autocmd QuickFixCmdPost lgetexpr lwindow
+    autocmd!
+    autocmd QuickFixCmdPost cgetexpr cwindow
+      \ | call setqflist([], 'a', s:qf_attrs)
+    autocmd QuickFixCmdPost lgetexpr lwindow
+      \ | call setloclist(0, [], 'a', s:qf_attrs)
   augroup end
 
   augroup s:qfmappings
-      autocmd!
-      autocmd Filetype qf call s:apply_mappings()
+    autocmd!
+    autocmd Filetype qf call s:apply_mappings()
   augroup end
 
   if exists('s:grep_job')
@@ -103,8 +120,9 @@ endfunction
 if exists('*jobstart')
 
   function! bettergrep#Grep(cmd, ...) abort
-    
-    call s:bettergrep_pre()
+
+    let grep_cmd = s:makecmd(a:000)
+    call s:bettergrep_pre(grep_cmd)
 
     let s:cmd = a:cmd
 
@@ -129,7 +147,7 @@ if exists('*jobstart')
     \ 'on_exit':   function('s:on_exit')
     \ }
 
-    let s:grep_job = jobstart(s:makecmd(a:000), s:callbacks)
+    let s:grep_job = jobstart(grep_cmd, s:callbacks)
 
   endfunction
 
@@ -138,13 +156,14 @@ if exists('*jobstart')
 elseif exists('*job_start')
 
   function! bettergrep#Grep(cmd, ...) abort
-    
-    call s:bettergrep_post()
+
+    let grep_cmd = s:makecmd(a:000)
+    call s:bettergrep_pre(grep_cmd)
 
     let s:cmd = a:cmd
     let s:data = ''
 
-    function! s:on_out(job_id, data) 
+    function! s:on_out(job_id, data)
       let s:data .= a:data . "\n"
     endfunction
 
@@ -170,7 +189,6 @@ elseif exists('*job_start')
     \ 'in_io':    'null'
     \ }
 
-    let grep_cmd = s:makecmd(a:000)
     let cmd = split(&shell) + split(&shellcmdflag) + [grep_cmd]
     let s:grep_job = job_start(cmd, s:callbacks)
 
@@ -184,8 +202,9 @@ else
   " https://gist.github.com/romainl/56f0c28ef953ffc157f36cc495947ab3
 
   function! bettergrep#Grep(cmd, ...) abort
-    call s:bettergrep_pre()
-    execute a:cmd . " " . "system(s:makecmd(a:000))"
+    let grep_cmd = s:makecmd(a:000)
+    call s:bettergrep_pre(grep_cmd)
+    execute a:cmd . " " . "system(grep_cmd)"
     call s:bettergrep_post()
   endfunction
 

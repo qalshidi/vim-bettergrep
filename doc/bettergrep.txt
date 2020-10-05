@@ -69,10 +69,28 @@ CTRL-G          Insert |:Grep| into command-line mode and start cursor after
 ALT-G           Insert |:Grepadd| into the command-line mode and start cursor
                 after it.
 
-                                                      *bettergrep_qf_mappings*
+                                                      *bettergrep-mappings-qf*
 Quickfix Window Mappings ~
 
+q ..............Close |quickfix| window.
+t ..............Open in a new tab. See: |tab-page|
+T ..............Open in new tab but keep focus on |quickfix| window.
+<Enter> ........Open current selection.
+o ..............Open current selection.
+O ..............Open current selection and keep focus on |quickfix| window.
+i ..............Open in horizontal |split|.
+I ..............Open in horizontal |split| and keep focus on |quickfix| window.
+s ..............Open in |vertical| split window.
+S ..............Open in |vertical| split and keep focus on |quickfix| window.
+go .............Open current selection and close |quickfix| window.
+gi .............Open in horizontal |split| and close |quickfix| window.
+gs .............Open in |vertical| split and close quickfix window.
+g? .............Open this |help|.
 
+To override or add to these mappings use the |g:bettergrep_qf_mappings|
+dictionary. Example: >
+    let g:bettergrep_qf_mappings = {'x': ':cclose<CR>'}  " close window
+<
 ==============================================================================
 CONFIGURATION                                       *bettergrep-configuration*
 
@@ -108,9 +126,20 @@ g:bettergrep_no_mappings                            *g:bettergrep_no_mappings*
 <
     see: |bettergrep-CTRL-G|
 
+                                                    *g:bettergrep_qf_mappings*
+g:bettergrep_qf_mappings
+
+    This is a dictionary in which you can add mappings to the quickfix window
+    made by bettergrep.
+    Example: >
+        let g:bettergrep_qf_mappings = {'x': ':cclose<CR>'}  " close qf window
+<
+    You can also override mappings and even bring mappings to their original
+    state like so: >
+        let g:bettergrep_qf_mappings['t'] = 't'
+<
 ==============================================================================
 LICENSE                                                   *bettergrep-license*
-
 
 Copyright 2020 Qusai Al Shidi
 
