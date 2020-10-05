@@ -2,8 +2,9 @@
 " Maintainer: Qusai Al Shidi
 " Email:      me@qalshidi.science
 " Website:    https://github.com/qalshidi/vim-bettergrep
+" License:    MIT License (c) 2020
 
-if exists('g:loaded_bettergrep')
+if exists('g:loaded_bettergrep') || &cp
   finish
 endif
 let g:loaded_bettergrep = 1

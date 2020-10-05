@@ -73,6 +73,8 @@ ALT-G           Insert |:Grepadd| into the command-line mode and start cursor
 Quickfix Window Mappings ~
 
 q ..............Close |quickfix| window.
+J ..............Go to next match (helpful when using context arguments)
+K ..............Go to previous match.
 t ..............Open in a new tab. See: |tab-page|
 T ..............Open in new tab but keep focus on |quickfix| window.
 <Enter> ........Open current selection.

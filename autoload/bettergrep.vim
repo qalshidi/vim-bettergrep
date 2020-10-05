@@ -2,6 +2,7 @@
 " Maintainer: Qusai Al Shidi
 " Email:      me@qalshidi.science
 " Website:    https://github.com/qalshidi/vim-bettergrep
+" License:    MIT License (c) 2020
 
 " decide on grep program {{{
 
@@ -22,6 +23,8 @@ endif
 
 let s:qf_mappings = {}
 let s:qf_mappings['q'] = "<C-W>c"                         " close qf
+let s:qf_mappings['J'] = ':silent call search("^[^\\|]", "z")<CR>'  " goto next match
+let s:qf_mappings['K'] = ':silent call search("^[^\\|]", "bz")<CR>'  " goto prev match
 let s:qf_mappings['t'] = "<C-W><CR><C-W>T"                " open in new tab
 let s:qf_mappings['T'] = s:qf_mappings['t'] . "gT<C-W>j"  " open in new tab keep focus
 let s:qf_mappings['o'] = "<CR>"                           " open
