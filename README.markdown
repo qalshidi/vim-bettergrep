@@ -49,8 +49,17 @@ let g:bettergrepprg = "<some_grepper>"
 I want to use `git grep`!
 
 ```vim
-let g:bettergrepprg = "git grep -n"
+let g:bettergrepprg = "git grep --column -n"
 " or using tpope/vim-fugitive plugin's :Ggrep
+```
+
+I want to use `git grep` when my current directory is a git repository!
+
+```vim
+autocmd VimEnter * if isdirectory('./.git') | let g:bettergrepprg = 'git grep -n --column' | endif
+if exists('##DirChanged')
+  autocmd DirChanged * if isdirectory('./.git') | let g:bettergrepprg = 'git grep -n --column' | endif
+endif
 ```
 
 Don't abbreviate my `:grep`!

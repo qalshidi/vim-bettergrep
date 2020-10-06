@@ -29,7 +29,7 @@ let s:qf_mappings['t'] = "<C-W><CR><C-W>T"                " open in new tab
 let s:qf_mappings['T'] = s:qf_mappings['t'] . "gT<C-W>j"  " open in new tab keep focus
 let s:qf_mappings['o'] = "<CR>"                           " open
 let s:qf_mappings['<CR>'] = s:qf_mappings['o']            " open
-let s:qf_mappings['O'] = "<CR><C-W>p"                     " open to preview keep focus
+let s:qf_mappings['O'] = "<CR><C-W>p"                     " open keep focus
 let s:qf_mappings['go'] = s:qf_mappings['O'] . s:qf_mappings['q'] " open and close qf
 let s:qf_mappings['i'] = "<C-W><CR><C-W>K"                " open horizontal split
 let s:qf_mappings['I'] = s:qf_mappings['i'] . "<C-W>b"   " open horiz maintain focus
@@ -67,11 +67,10 @@ function! s:bettergrep_pre(grep_cmd) abort
       \ | call setqflist([], 'a', s:qf_attrs)
     autocmd QuickFixCmdPost lgetexpr lwindow
       \ | call setloclist(0, [], 'a', s:qf_attrs)
-  augroup end
-
-  augroup s:qfmappings
-    autocmd!
     autocmd Filetype qf call s:apply_mappings()
+    autocmd Filetype qf setlocal foldexpr=getline(v:lnum)=~'^\|\|\ [^--]'?'1':'0'
+    autocmd Filetype qf setlocal foldmethod=expr
+    autocmd Filetype qf setlocal foldlevel=0
   augroup end
 
   if exists('s:grep_job')
@@ -98,10 +97,6 @@ function! s:bettergrep_post() abort
 
   augroup s:qfopen  " remove autocommands from user configuration after open
     autocmd!
-  augroup end
-
-  augroup s:qfmappings
-      autocmd!
   augroup end
 
   if exists('s:grep_job')
