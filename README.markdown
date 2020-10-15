@@ -31,6 +31,13 @@ With [vim-plug](https://github.com/junegunn/vim-plug):
 Plug 'qalshidi/vim-bettergrep'
 ```
 
+Usage
+-----
+
+Either type `:grep` or press `<C-g>` and start searching your files :).
+
+[!img/bettergrep.gif]
+
 Configuration
 -------------
 
