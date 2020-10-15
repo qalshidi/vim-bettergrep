@@ -36,7 +36,7 @@ Usage
 
 Either type `:grep` or press `<C-g>` and start searching your files :).
 
-[!img/bettergrep.gif]
+![Demonstration](img/bettergrep.gif)
 
 Configuration
 -------------
