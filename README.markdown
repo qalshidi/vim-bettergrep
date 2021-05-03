@@ -44,7 +44,7 @@ Configuration
 Don't map my CTRL-G!
 
 ```vim
-let g:bettergrep_no_mapping = 1
+let g:bettergrep_no_mappings = 1
 ```
 
 I want to use `some_grepper`!
