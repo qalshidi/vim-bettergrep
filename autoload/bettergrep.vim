@@ -130,7 +130,7 @@ if exists('*jobstart')
 
     function! s:on_error(job_id, data, event) dict
       if len(a:data) > 1
-        echom 'bettergrep E: ' . join(a:data, "\n")
+        echoerr 'bettergrep E: ' . join(a:data, "\n")
       endif
     endfunction
 
@@ -149,6 +149,7 @@ if exists('*jobstart')
       let s:callbacks.stdin = 'null'
     endif
 
+    echomsg "bettergrep: " . grep_cmd
     let s:grep_job = jobstart(grep_cmd, s:callbacks)
 
   endfunction
@@ -171,7 +172,7 @@ elseif exists('*job_start')
 
     function! s:on_error(job_id, data)
       if len(a:data) > 1
-        echom 'bettergrep E: ' . join([a:data], "\n")
+        echoerr 'bettergrep E: ' . join([a:data], "\n")
       endif
     endfunction
 
@@ -192,6 +193,7 @@ elseif exists('*job_start')
     \ }
 
     let cmd = split(&shell) + split(&shellcmdflag) + [grep_cmd]
+    echomsg "bettergrep: " . cmd
     let s:grep_job = job_start(cmd, s:callbacks)
 
   endfunction
@@ -206,6 +208,7 @@ else
   function! bettergrep#Grep(cmd, ...) abort
     let grep_cmd = s:makecmd(a:000)
     call s:bettergrep_pre(grep_cmd)
+    echomsg "bettergrep: " . grep_cmd
     execute a:cmd . " " . "system(grep_cmd)"
     call s:bettergrep_post()
   endfunction
