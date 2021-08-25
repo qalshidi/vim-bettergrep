@@ -144,6 +144,10 @@ if exists('*jobstart')
     \ 'on_stderr': function('s:on_error'),
     \ 'on_exit':   function('s:on_exit')
     \ }
+    if has('nvim-0.5.1')
+      " (see https://github.com/mhinz/vim-grepper/issues/244 for more info)
+      let s:callbacks.stdin = 'null'
+    endif
 
     let s:grep_job = jobstart(grep_cmd, s:callbacks)
 
