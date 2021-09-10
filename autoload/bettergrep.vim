@@ -49,6 +49,7 @@ function! s:apply_mappings() abort
   for key in keys(s:qf_mappings)
     execute "nnoremap <buffer> <silent> " . key . ' ' . s:qf_mappings[key]
   endfor
+
 endfunction
 
 "}}}
@@ -123,14 +124,24 @@ if exists('*jobstart')
     call s:bettergrep_pre(grep_cmd)
 
     let s:cmd = a:cmd
+    let s:is_error = 0
 
     function! s:on_out(job_id, data, event) dict
-      execute s:cmd . ' join(a:data, "\n")'
+      if len(a:data) == 1 && s:is_error == 0
+        echohl WarningMsg
+        echomsg "bettergrep: No results found."
+        echohl None
+      else
+        if s:is_error == 0
+          execute s:cmd . ' join(a:data, "\n")'
+        endif
+      endif
     endfunction
 
     function! s:on_error(job_id, data, event) dict
+      let s:is_error = 1
       if len(a:data) > 1
-        echoerr 'bettergrep E: ' . join(a:data, "\n")
+        echoerr 'bettergrep ERR: ' . join(a:data, "\n")
       endif
     endfunction
 
@@ -165,14 +176,16 @@ elseif exists('*job_start')
 
     let s:cmd = a:cmd
     let s:data = ''
+    let s:is_error = 0
 
     function! s:on_out(job_id, data)
       let s:data .= a:data . "\n"
     endfunction
 
     function! s:on_error(job_id, data)
+      let s:is_error = 1
       if len(a:data) > 1
-        echoerr 'bettergrep E: ' . join([a:data], "\n")
+        echoerr 'bettergrep ERR: ' . join([a:data], "\n")
       endif
     endfunction
 
@@ -180,6 +193,10 @@ elseif exists('*job_start')
       let job_to_kill = s:grep_job
       if len(s:data) > 1
         execute s:cmd . ' join([s:data], "\n")'
+      elseif s:is_error == 0
+        echohl WarningMsg
+        echomsg "bettergrep: No results found."
+        echohl None
       endif
       call s:bettergrep_post()
       call job_stop(job_to_kill)
@@ -192,9 +209,9 @@ elseif exists('*job_start')
     \ 'in_io':    'null'
     \ }
 
-    let cmd = split(&shell) + split(&shellcmdflag) + [grep_cmd]
-    echomsg "bettergrep: " . cmd
-    let s:grep_job = job_start(cmd, s:callbacks)
+    let shell_cmd = split(&shell) + split(&shellcmdflag) + [grep_cmd]
+    echomsg "bettergrep: " . join(shell_cmd, ' ')
+    let s:grep_job = job_start(shell_cmd, s:callbacks)
 
   endfunction
 
