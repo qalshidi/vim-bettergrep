@@ -5,7 +5,6 @@
 " License:    MIT License (c) 2020
 
 " decide on grep program {{{
-
 if !exists('g:bettergrepprg')
   if executable('rg')
     let g:bettergrepprg = "rg --vimgrep"
@@ -17,8 +16,8 @@ if !exists('g:bettergrepprg')
     let g:bettergrepprg = &grepprg
   endif
 endif
-
 " }}}
+
 " Mappings {{{
 
 let s:qf_mappings = {}
@@ -50,9 +49,21 @@ function! s:apply_mappings() abort
     execute "nnoremap <buffer> <silent> " . key . ' ' . s:qf_mappings[key]
   endfor
 
-endfunction
+endfunction "}}}
 
-"}}}
+"{{{ Functions
+function! s:msg(message_str, error) abort
+  "{{{ Messaging mechanics
+  if a:error == 0      " Message
+    echomsg 'bettergrep: ' . a:message_str
+  elseif a:error == 1  " Error
+    echoerr 'bettergrep: ' . a:message_str
+  elseif a:error == 2  " Warning
+    echohl WarningMsg
+    echomsg 'bettergrep: ' . a:message_str
+    echohl None
+  endif
+endfunction "}}}
 
 function! s:bettergrep_pre(grep_cmd) abort
   " Side effects before grepping like quick fix autocmds {{{
@@ -128,9 +139,7 @@ if exists('*jobstart')
 
     function! s:on_out(job_id, data, event) dict
       if len(a:data) == 1 && s:is_error == 0
-        echohl WarningMsg
-        echomsg "bettergrep: No results found."
-        echohl None
+        call s:msg('No results found.', 2)
       else
         if s:is_error == 0
           execute s:cmd . ' join(a:data, "\n")'
@@ -141,7 +150,7 @@ if exists('*jobstart')
     function! s:on_error(job_id, data, event) dict
       let s:is_error = 1
       if len(a:data) > 1
-        echoerr 'bettergrep ERR: ' . join(a:data, "\n")
+        call s:msg(join(a:data, "\n"), 1) " Show error
       endif
     endfunction
 
@@ -160,7 +169,7 @@ if exists('*jobstart')
       let s:callbacks.stdin = 'null'
     endif
 
-    echomsg "bettergrep: " . grep_cmd
+    call s:msg(grep_cmd, 0)
     let s:grep_job = jobstart(grep_cmd, s:callbacks)
 
   endfunction
@@ -185,7 +194,7 @@ elseif exists('*job_start')
     function! s:on_error(job_id, data)
       let s:is_error = 1
       if len(a:data) > 1
-        echoerr 'bettergrep ERR: ' . join([a:data], "\n")
+        call s:msg(join([a:data], "\n"), 1)
       endif
     endfunction
 
@@ -194,9 +203,7 @@ elseif exists('*job_start')
       if len(s:data) > 1
         execute s:cmd . ' join([s:data], "\n")'
       elseif s:is_error == 0
-        echohl WarningMsg
-        echomsg "bettergrep: No results found."
-        echohl None
+        call s:msg("No results found.", 2)
       endif
       call s:bettergrep_post()
       call job_stop(job_to_kill)
@@ -210,7 +217,7 @@ elseif exists('*job_start')
     \ }
 
     let shell_cmd = split(&shell) + split(&shellcmdflag) + [grep_cmd]
-    echomsg "bettergrep: " . join(shell_cmd, ' ')
+    call s:msg(join(shell_cmd, ' '), 0)
     let s:grep_job = job_start(shell_cmd, s:callbacks)
 
   endfunction
@@ -225,12 +232,14 @@ else
   function! bettergrep#Grep(cmd, ...) abort
     let grep_cmd = s:makecmd(a:000)
     call s:bettergrep_pre(grep_cmd)
-    echomsg "bettergrep: " . grep_cmd
+    call s:msg(grep_cmd, 0)
     execute a:cmd . " " . "system(grep_cmd)"
     call s:bettergrep_post()
   endfunction
 
 endif
 " }}}
+
+"}}} Functions
 
 " vim: et sts=2 sw=2 foldmethod=marker
