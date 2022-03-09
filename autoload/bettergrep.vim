@@ -139,11 +139,11 @@ if exists('*jobstart')
 
     function! s:on_out(job_id, data, event) dict
       if len(a:data) == 1 && s:is_error == 0
-        call s:msg('No results found.', 2)
+        call s:msg('No result found.', 2)
       elseif s:is_error == 0
         execute s:cmd . ' join(a:data, "\n")'
         let l:results_count = len(filter(getqflist(), 'v:val.valid'))
-        call s:msg(l:results_count .. ' results found', 0)
+        call s:msg(l:results_count .. ' result(s) found', 0)
       endif
     endfunction
 
@@ -203,7 +203,7 @@ elseif exists('*job_start')
       if len(s:data) > 1
         execute s:cmd . ' join([s:data], "\n")'
       elseif s:is_error == 0
-        call s:msg("No results found.", 2)
+        call s:msg("No result found.", 2)
       endif
       call s:bettergrep_post()
       call job_stop(job_to_kill)
