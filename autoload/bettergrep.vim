@@ -142,7 +142,11 @@ if exists('*jobstart')
         call s:msg('No result found.', 2)
       elseif s:is_error == 0
         execute s:cmd . ' join(a:data, "\n")'
-        let l:results_count = len(filter(getqflist(), 'v:val.valid'))
+        if s:cmd[0] ==# 'l'
+          let l:results_count = len(filter(getloclist(0), 'v:val.valid'))
+        else
+          let l:results_count = len(filter(getqflist(), 'v:val.valid'))
+        endif
         call s:msg(l:results_count .. ' result(s) found', 0)
       endif
     endfunction
