@@ -122,6 +122,7 @@ function! s:makecmd(args) abort
   " Make the command line to send to shell {{{
   let grep_cmd  = [g:bettergrepprg]
   let grep_cmd += map(copy(a:args), 'expand(v:val)')   " Substitute wildcards
+  echomsg grep_cmd
   return substitute(join(grep_cmd, ' '), "\n", ' ', '') " Remove newlines
 endfunction
 " }}}
