@@ -122,7 +122,7 @@ function! s:makecmd(args) abort
   " Make the command line to send to shell {{{
   let grep_cmd  = [g:bettergrepprg]
   let grep_cmd += map(copy(a:args), 'expand(v:val)')   " Substitute wildcards
-  echomsg grep_cmd
+  call s:msg(grep_cmd, 0)
   return substitute(join(grep_cmd, ' '), "\n", ' ', '') " Remove newlines
 endfunction
 " }}}
@@ -174,7 +174,6 @@ if exists('*jobstart')
       let s:callbacks.stdin = 'null'
     endif
 
-    call s:msg(grep_cmd, 0)
     let s:grep_job = jobstart(grep_cmd, s:callbacks)
 
   endfunction
@@ -237,7 +236,6 @@ else
   function! bettergrep#Grep(cmd, ...) abort
     let grep_cmd = s:makecmd(a:000)
     call s:bettergrep_pre(grep_cmd)
-    call s:msg(grep_cmd, 0)
     execute a:cmd . " " . "system(grep_cmd)"
     call s:bettergrep_post()
   endfunction
