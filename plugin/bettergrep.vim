@@ -10,10 +10,10 @@ endif
 let g:loaded_bettergrep = 1
 
 " Commands
-command! -nargs=+ -complete=file_in_path -bar Grep     call bettergrep#Grep('cgetexpr', <f-args>)
-command! -nargs=+ -complete=file_in_path -bar LGrep    call bettergrep#Grep('lgetexpr', <f-args>)
-command! -nargs=+ -complete=file_in_path -bar Grepadd  call bettergrep#Grep('caddexpr', <f-args>)
-command! -nargs=+ -complete=file_in_path -bar LGrepadd call bettergrep#Grep('laddexpr', <f-args>)
+command! -nargs=+ -complete=file_in_path -bar Grep     call bettergrep#Grep('cgetexpr', escape(<q-args>, '\'))
+command! -nargs=+ -complete=file_in_path -bar LGrep    call bettergrep#Grep('lgetexpr', escape(<q-args>, '\'))
+command! -nargs=+ -complete=file_in_path -bar Grepadd  call bettergrep#Grep('caddexpr', escape(<q-args>, '\'))
+command! -nargs=+ -complete=file_in_path -bar LGrepadd call bettergrep#Grep('laddexpr', escape(<q-args>, '\'))
 
 " Mappings
 if !get(g:, 'bettergrep_no_mappings', 0)

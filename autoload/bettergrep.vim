@@ -121,7 +121,8 @@ endfunction
 function! s:makecmd(args) abort
   " Make the command line to send to shell {{{
   let grep_cmd  = [g:bettergrepprg]
-  let grep_cmd += map(copy(a:args), 'expand(v:val)')   " Substitute wildcards
+  let grep_cmd += split(a:args)
+  let grep_cmd  = map(grep_cmd, 'expand(v:val)')
   let grep_cmd = substitute(join(grep_cmd, ' '), "\n", ' ', '') " Remove newlines
   call s:msg(grep_cmd, 0)
   return grep_cmd
@@ -131,9 +132,9 @@ endfunction
 " NeoVim async method {{{
 if exists('*jobstart')
 
-  function! bettergrep#Grep(cmd, ...) abort
+  function! bettergrep#Grep(cmd, args) abort
 
-    let grep_cmd = s:makecmd(a:000)
+    let grep_cmd = s:makecmd(a:args)
     call s:bettergrep_pre(grep_cmd)
 
     let s:cmd = a:cmd
@@ -183,9 +184,9 @@ if exists('*jobstart')
 " Vim async method {{{
 elseif exists('*job_start')
 
-  function! bettergrep#Grep(cmd, ...) abort
+  function! bettergrep#Grep(cmd, args) abort
 
-    let grep_cmd = s:makecmd(a:000)
+    let grep_cmd = s:makecmd(a:args)
     call s:bettergrep_pre(grep_cmd)
 
     let s:cmd = a:cmd
@@ -234,8 +235,8 @@ else
   " Thanks to RomainL's gist
   " https://gist.github.com/romainl/56f0c28ef953ffc157f36cc495947ab3
 
-  function! bettergrep#Grep(cmd, ...) abort
-    let grep_cmd = s:makecmd(a:000)
+  function! bettergrep#Grep(cmd, args) abort
+    let grep_cmd = s:makecmd(a:args)
     call s:bettergrep_pre(grep_cmd)
     execute a:cmd . " " . "system(grep_cmd)"
     call s:bettergrep_post()
