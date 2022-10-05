@@ -121,9 +121,8 @@ endfunction
 function! s:makecmd(args) abort
   " Make the command line to send to shell {{{
   let grep_cmd  = [g:bettergrepprg]
-  let grep_cmd += split(a:args)
-  let grep_cmd  = map(grep_cmd, 'expand(v:val)')
-  let grep_cmd = substitute(join(grep_cmd, ' '), "\n", ' ', '') " Remove newlines
+  let grep_cmd += map(split(a:args), 'escape(expand(v:val), " ")')  " ensure good file names
+  let grep_cmd  = substitute(join(grep_cmd, ' '), "\n", ' ', 'g') " Remove newlines
   call s:msg(grep_cmd, 0)
   return grep_cmd
 endfunction
